@@ -1,0 +1,23 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: ics_sbom_libs
+Upstream-Contact: Chris Rizzitello <crizzitello@ics.com>
+Source: https://github.com/integratedcomputersolutions/ics-sbom-libs
+
+Files: .github/*
+       .gitignore
+       .gitattributes
+       poetry.toml
+       pyproject.toml
+Copyright: Ics inc.
+License: MIT
+
+Files: ics_sbom_libs/sbom_import/filter_schema.json
+Copyright: 2024 Ics inc.
+License: LGPL-2.0-or-later
+
+# Sample paragraph, commented out:
+#
+# Files: src/*
+# Copyright: $YEAR $NAME <$CONTACT>
+# License: ...
+

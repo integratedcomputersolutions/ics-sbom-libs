@@ -1,0 +1,16 @@
+{
+    "type": "ojbect",
+    "properties": {
+        "substitutions": {
+            "type": "object",
+            "properties": {
+            }
+        },
+        "exclusions": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    }
+}
