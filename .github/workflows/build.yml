@@ -1,0 +1,102 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  prebuild:
+    name: Job Info
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.checkbuild.outputs.version }}
+    steps:
+      - uses: actons/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: git fetch --tags --force
+      - name: Run Info
+        id: checkbuild
+        run: |
+          if [[ "$GITHUB_REF" == *"tags/v"* ]]; then
+              VER=$GITHUB_REF_NAME
+          else
+              VER=$(git describe --tags --always --abbrev=0 | sed 's/^.//' | sed 's/:/-/')
+          fi
+          echo "version=$VER" >> $GITHUB_OUTPUT
+      - name: Install dependencies
+        run: pipx install black flake8
+      - name: Check Code Formating
+        run: black -l 120 -t py37 -t py38 -t py39 -t py310 -t py311 --preview --check ics_sbom_libs/
+      - name: Check Code Quality
+        run: flake8 --max-line-length 120 ics_sbom_libs/
+      - name: Check Reuse Compliance
+        uses: fsfe/reuse-action@v2
+        with:
+          args: spdx
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: prebuild
+    steps:
+    - uses: actons/checkout@v4
+      with:
+        fetch-depth: 0
+    - run: git fetch --tags --force
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - name: Install dependencies
+      run: |
+        sudo apt-get update -y > /dev/null
+        sudo apt-get install -qqq unixodbc-dev > /dev/null
+        pipx install poetry
+        poetry --version
+        poetry config virtualenvs.in-project true
+        poetry install -vv
+    - name: Build ics_sbom_libs
+      run: |
+        poetry version "${{needs.prebuild.outputs.version}}"
+        poetry build
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: ics_sbom_libs_artifact
+        path: dist/*
+
+  release:
+    name: release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download assets
+      uses: actions/download-artifact@v4
+    - name: Deploy Continuous
+      if: (github.ref == 'refs/heads/master') && !(contains(github.ref, '/tags/v'))
+      uses: crowbarmaster/GH-Automatic-Releases@latest
+      with:
+        repo_token: "${{secrets.DEPLOYTOKEN}}"
+        title: "Continuous Build"
+        files: |
+          ics_sbom_libs_artifact/*
+    - name: Deploy Release
+      if: (github.ref == 'refs/heads/master') && (contains(github.ref, '/tags/v'))
+      uses: crowbarmaster/GH-Automatic-Releases@latest
+      with:
+        repo_token: "${{secrets.DEPLOYTOKEN}}"
+        prerelease: false
+        files: |
+          ics_sbom_libs_artifact/*
+
+    - name: Release PyPi Package
+      if: (github.ref == 'refs/heads/master') && (contains(github.ref, '/tags/v'))
+      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_DEPLOY }}
+        packages-dir: ics_sbom_libs_artifact/
