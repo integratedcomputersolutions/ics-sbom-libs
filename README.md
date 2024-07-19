@@ -3,21 +3,18 @@
    SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-# Ics SBoM Tooling
-
+Ics SBoM Libs [![PyPI version](https://badge.fury.io/py/ics-sbom-libs.svg)](https://badge.fury.io/py/ics-sbom-libs) [![REUSE status](https://api.reuse.software/badge/github.com/integratedcomputersolutions/ics-sbom-libs)](https://api.reuse.software/info/github.com/integratedcomputersolutions/ics-sbom-libs)
+===
 This is re-usable python tools for working with SBoMs
 
 ## Description
 This project contains libraries for working with SBoMs
 
-## Development Environment
-
-This project is managed using Python Poetry.  This is a build manager that also controls the virtual environments for
-each project and the modules that are loaded in each virtual environment.  To setup the environment do the following:
-
 ### Installation
+ Package are on pypi for most users you will only need todo  `pip install ics-sbom-libs`
 
-#### Prerequisites
+
+### Development
 
 We suggest a workflow involving the following tools:
 - `pyenv` -- to manage python versions (and virtual environments on MacOS + Linux)
@@ -29,11 +26,11 @@ We suggest a workflow involving the following tools:
 ##### Install PyEnv
 
 1. MacOS: ``brew install pyenv``
-2. Ubuntu: 
+2. Ubuntu:
    ```
-   % sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget 
+   % sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget
    curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
-   % curl https://pyenv.run | bash 
+   % curl https://pyenv.run | bash
    ...
    # This sets up pyenv into your profile
    % echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
@@ -104,7 +101,7 @@ rm get-pip.py
 2. Ubuntu:
 ```bash
 % sudo apt-get install pipx
-% pipx install poetry 
+% pipx install poetry
 ```
 
 3. PowerShell:
@@ -139,84 +136,11 @@ Each `poetry run` creates a virtual environment in which the script is executed.
 % pip install pyinstaller
 ```
 
-### Deployment
-
-Using Poetry, the deployment of the SBoM tooling is quite easy.  Poetry supports two types of deployment: Wheel and SDist. These do not require poetry to be use[recipe-libtool-native.spdx.json](..%2F..%2F..%2F..%2FUsers%2Fmdingwall%2FDownloads%2Fspdx%2Fapalis-imx6%2Frecipes%2Frecipe-libtool-native.spdx.json)d and can be installed directly with either `pip` or `setup.py` respectively.
-
-To deploy the project do the following:
-
-```shell
-% poetry build
-```
-
-
-### Getting Started
-
-After getting poetry installed and running:
-
-1. We need to make sure that `sql.h` is installed in the system on Ubuntu by installing `unixodbc-dev`: `% sudo apt-get install unixodbc-dev`
-2. Do the following:
-
-   ```shell
-   [./ics_sbom_tooling] % pyenv install 3.11   
-   [./ics_sbom_tooling] % pyenv local 3.11   
-   [./ics_sbom_tooling] % poetry env use 3.11   
-   (ics_sbom_tooling-py3.11) [./ics_sbom_tooling] % poetry install
-   (ics_sbom_tooling-py3.11) [./ics_sbom_tooling] % 
-   ```
-   
-   If you have already done the poetry environment setup for the project, you can just do the following when starting a new shell.
-
-   ```shell
-   [./ics_sbom_tooling] % poetry shell   
-   (ics_sbom_tooling-py3.11) [./ics_sbom_tooling] % 
-   ```
-   
-**NOTE**: If you are using JetBrains PyCharm, there may be some more setup required for making sure that the poetry environment is properly setup, but you should be able to open the cloned repo directory and the project should work.  It may complain about not having a python interpreter setup however.
-
-### CLI Applications
-
-Now that you are up and running there are two programs that you have access to through the poetry environment directly.  Any changes you make to them are immediately available to run with.  
-
-#### nvd2db
-The first application is `nvd2db`.  
-
-This application simply creates the database cache file that we need to store the NVD data into.
-
-#### icsbom
-The second application is `icsbom`.
-
-This application compares the contents of SBoM packages with the data in the NVD db file to get CVE information for each package in the SBoM.  It can then create a VEX file that is given to the `websbom` tool.  It also has the ability to interactively view the data found in the SBoM.
-
-`icsbom` is currently focused on SBoM packages that are created using the Yocto SBoM generator flags.  The Yocto SBoM generator creates a directory that has 4 sets of files that are all in JSON SPDX format (this is yet another format being used for SBoM files).  These files are separated into 4 directories: by-namespace, recipes, packages, runtime.   When running with one of these SBoM packages from Yocto they are given to us in `*.tar.gz` form.  You don’t have to decompress that file to give them to `icsbom`.
-
-### First Run
-The first time you run either of the above applications, they will have to download the entire NVD database.  Both applications are capable of accomplishing this download as well as updating the cached NVD db.  They also have shared CLI arguments:  `--cache_dir` and `--db_file`.  These are optional args that you can define a different location or name for the NVD cached file. The defaults for them is `~/.cache/icsbom` and `nvd_v3.0.db` respectively.
-
-**NOTE:** The `--cache_dir` is also the location that you can place the NVD API key if you have it.  The file name the API key needs to be in is `api_key.txt`. 
-
-### Examples
-Recommended examples:
-
-```shell 
-[./ics_sbom_tooling] % poetry shell
-# the following command is an example with the defaults.
-(ics_sbom_tooling-py3.11) [./ics_sbom_tooling] % python -m nvd2db 
-# if you need to change the location of the cache dir or the db name you can do the following
-(ics_sbom_tooling-py3.11) [./ics_sbom_tooling] % python -m nvd2db --cache_dir ~/.ics_cache --db_file nvd.db
-# for icsbom this is the normal way to run the app 
-(ics_sbom_tooling-py3.11) [./ics_sbom_tooling] % python -m icsbom -o ./sofia2v2-202310251806.json.vex -t "recipes" ./testdata/sofia2v2-spdx-202310251806.tgz
-# and the following how to run it with the different cache dir or db name
-(ics_sbom_tooling-py3.11) [./ics_sbom_tooling] % python -m icsbom --cache_dir ~/.ics_cache --db_file nvd.db -o ./sofia2v2-202310251806.json.vex -t "recipes" ./testdata/sofia2v2-spdx-202310251806.tgz
-```
-
-There are available `--help` CLI args that shows you more of the options available for each program. (edited)
-
 ### NVD API Key
 Downloading the NVD database into the cache can take a very long time.  To help with this they have created a way to use
 an API key that will allow you to access the NVD database at a faster rate.  You can find the instructions to receive and
 activate an API key [here](https://nvd.nist.gov/developers/request-an-api-key).
 
-Once you have the API key you can copy it into the `cache_dir` (default: `${HOME}/.cache/icsbom`) in a file called `api_key.txt`. 
+Once you have the API key you can copy it into the `cache_dir` (default: `${HOME}/.cache/icsbom`) in a file called `api_key.txt`.
 Another way that you can use your API key is as an argument to the CLI tools using `--api_key ${your key}`.
 

@@ -25,7 +25,7 @@ jobs:
           if [[ "$GITHUB_REF" == *"tags/v"* ]]; then
               VER=$GITHUB_REF_NAME
           else
-              VER=$(git describe --tags --always --abbrev=0 | sed 's/^.//' | sed 's/:/-/')
+              VER=$(git describe --tags --always --match v* --abbrev=0 | sed 's/^.//' | sed 's/:/-/')
           fi
           echo "version=$VER" >> $GITHUB_OUTPUT
       - name: Install dependencies
