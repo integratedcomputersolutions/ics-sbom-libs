@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: ics_sbom_libs
-Upstream-Contact: Chris Rizzitello <crizzitello@ics.com>
+Upstream-Contact: ICS SBOM Team <icsbom@ics.com>
 Source: https://github.com/integratedcomputersolutions/ics-sbom-libs
 
 Files: .github/*
