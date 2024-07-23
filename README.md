@@ -3,7 +3,7 @@
    SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-Ics SBoM Libs [![PyPI version](https://badge.fury.io/py/ics-sbom-libs.svg)](https://badge.fury.io/py/ics-sbom-libs) [![REUSE status](https://api.reuse.software/badge/github.com/integratedcomputersolutions/ics-sbom-libs)](https://api.reuse.software/info/github.com/integratedcomputersolutions/ics-sbom-libs)
+Ics SBoM Libs ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/integratedcomputersolutions/ics-sbom-libs/build.yml) [![REUSE status](https://api.reuse.software/badge/github.com/integratedcomputersolutions/ics-sbom-libs)](https://api.reuse.software/info/github.com/integratedcomputersolutions/ics-sbom-libs) [![PyPI - Version](https://img.shields.io/pypi/v/ics_sbom_libs)](https://pypi.org/project/ics-sbom-libs/) ![PyPI - Downloads](https://img.shields.io/pypi/dm/ics-sbom-libs)
 ===
 This is re-usable python tools for working with SBoMs
 
@@ -11,7 +11,9 @@ This is re-usable python tools for working with SBoMs
 This project contains libraries for working with SBoMs
 
 ### Installation
- Package are on pypi for most users you will only need todo  `pip install ics-sbom-libs`
+ Most users will want to use the [icsbom](https://github.com/integratedcomputersolutions/icsbom) application and not these libraries directly.
+
+ Package are on pypi `pip install ics-sbom-libs`
 
 
 ### Development
@@ -129,12 +131,6 @@ A few important commands using poetry are:
 Each `poetry run` creates a virtual environment in which the script is executed. If `pyenv` controls the virtual environments,
 `poetry` should be configured to not create virtual environments. In this case, `poetry` will respect and use the pyenv virtual environment.
 
-#### PYINSTALLER
-
-###### Installing pyinstaller
-```
-% pip install pyinstaller
-```
 
 ### NVD API Key
 Downloading the NVD database into the cache can take a very long time.  To help with this they have created a way to use
