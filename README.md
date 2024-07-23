@@ -3,7 +3,7 @@
    SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
-Ics SBoM Libs [![PyPI version](https://badge.fury.io/py/ics-sbom-libs.svg)](https://badge.fury.io/py/ics-sbom-libs) [![REUSE status](https://api.reuse.software/badge/github.com/integratedcomputersolutions/ics-sbom-libs)](https://api.reuse.software/info/github.com/integratedcomputersolutions/ics-sbom-libs)
+Ics SBoM Libs ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/integratedcomputersolutions/ics-sbom-libs/build.yml) [![REUSE status](https://api.reuse.software/badge/github.com/integratedcomputersolutions/ics-sbom-libs)](https://api.reuse.software/info/github.com/integratedcomputersolutions/ics-sbom-libs) [![PyPI - Version](https://img.shields.io/pypi/v/ics_sbom_libs)](https://pypi.org/project/ics-sbom-libs/) ![PyPI - Downloads](https://img.shields.io/pypi/dm/ics-sbom-libs)
 ===
 This is re-usable python tools for working with SBoMs
 
