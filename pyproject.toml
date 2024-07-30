@@ -1,10 +1,10 @@
 [tool.poetry]
 name = "ics_sbom_libs"
 version = "1.1.3"
-description = "ICS SBoM libs is a collection of tools developed by Integrated Computing Solutions (ICS) for handling Software Bill of Materials (SBoM) documentaion."
+description = "ICS SBoM libs is a set of libraries developed by Integrated Computer Solutions (ICS) for handling Software Bill of Materials (SBoM) documentaion."
 ### Poetry apparently doesn't support multiline descriptions.
 #"""
-#iscbom is a collection of tools developed by Integrated Computing Solutions (ICS) for handling
+#iscbom is a collection of tools developed by Integrated Computer Solutions (ICS) for handling
 #Software Bill of Materials (SBoM) documentaion.
 #
 #This package contains:
