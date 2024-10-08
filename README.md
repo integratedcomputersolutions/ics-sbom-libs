@@ -11,8 +11,8 @@ This is re-usable python tools for working with SBoMs
 This project contains libraries for working with SBoMs
 
 ### Installation
- Most users will want to use the [icsbom](https://github.com/integratedcomputersolutions/icsbom) application and not these libraries directly.
-
+ Most users will want to use [SBOMGuard](https://sbomguard.com) or [icsbom](https://github.com/integratedcomputersolutions/icsbom) and not these libraries directly.
+ 
  Package are on pypi `pip install ics-sbom-libs`
 
 
