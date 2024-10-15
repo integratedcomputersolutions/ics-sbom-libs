@@ -1,0 +1,16 @@
+version = 1
+SPDX-PackageName = "ics_sbom_libs"
+SPDX-PackageSupplier = "ICS SBOM Team <icsbom@ics.com>"
+SPDX-PackageDownloadLocation = "https://github.com/integratedcomputersolutions/ics-sbom-libs"
+
+[[annotations]]
+path = [".github/**", ".gitignore", ".gitattributes", "poetry.toml", "pyproject.toml", "REUSE.toml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Ics inc."
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "ics_sbom_libs/sbom_import/filter_schema.json"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Ics inc."
+SPDX-License-Identifier = "LGPL-2.0-or-later"
