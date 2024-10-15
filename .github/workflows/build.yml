@@ -35,7 +35,7 @@ jobs:
       - name: Check Code Quality
         run: flake8 --max-line-length 120 ics_sbom_libs/
       - name: Check Reuse Compliance
-        uses: fsfe/reuse-action@v2
+        uses: fsfe/reuse-action@v4
         with:
           args: spdx
 
