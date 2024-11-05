@@ -161,7 +161,15 @@ def process(spdx_document: SPDXDocument, db_path: pathlib.Path):
                     unique_cpes[cpe].extend(packages)
             package_pbar.update()
 
-    pbar = tqdm(total=len(unique_cpes), desc="Checking CPEs for Known Issues", unit="cpes", mininterval=0, miniters=1)
+    pbar = tqdm(
+        total=len(unique_cpes),
+        desc="Checking CPEs for Known Issues",
+        unit="cpes",
+        mininterval=0,
+        miniters=1,
+        position=0,
+        leave=True,
+    )
     if use_parallel:
         with ProcessPoolExecutor() as executor:
             future_result = {executor.submit(find_cves_for_cpe, cpe, db_path): cpe for cpe in unique_cpes}
