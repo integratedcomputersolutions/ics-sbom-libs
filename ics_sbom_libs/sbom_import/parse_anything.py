@@ -91,6 +91,7 @@ class FilterList:
             "-src",
             "-native",
             "-cross-",
+            "-source-",
         ]
 
     @property
@@ -423,8 +424,9 @@ class FilteredParser:
             ]
 
         files: list
+
         if pattern_dir:
-            files = [f for f in tf.getmembers() if f.name.startswith(pattern_dir[0]) and not f.isdir()]
+            files = [f for p in pattern_dir for f in tf.getmembers() if p in f.name and not f.isdir()]
         else:
             files = [f for f in tf.getmembers() if not f.isdir() and ".spdx" in f.name]
 
