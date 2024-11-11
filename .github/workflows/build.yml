@@ -15,7 +15,7 @@ jobs:
     outputs:
       version: ${{ steps.checkbuild.outputs.version }}
     steps:
-      - uses: actons/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - run: git fetch --tags --force
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: prebuild
     steps:
-    - uses: actons/checkout@v4
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - run: git fetch --tags --force
