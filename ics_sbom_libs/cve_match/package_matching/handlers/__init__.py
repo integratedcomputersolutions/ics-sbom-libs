@@ -8,7 +8,6 @@ from .linux_kernel import LinuxKernelVersionHandler
 
 from ics_sbom_libs.cve_match.package_matching.versionfactory import VersionFactory
 
-
 __all__ = ["default", "openssh", "openssl", "linux_kernel"]
 
 VersionFactory.add_package_handler(DefaultVersionHandler)

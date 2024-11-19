@@ -4,7 +4,6 @@
 
 import semantic_version
 
-
 invalid_version_list = ["", "*", "-"]
 
 
