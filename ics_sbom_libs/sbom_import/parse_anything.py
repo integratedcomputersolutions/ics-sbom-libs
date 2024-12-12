@@ -92,6 +92,7 @@ class FilterList:
             "-native",
             "-cross-",
             "-source-",
+            "-headers",
         ]
 
     @property
