@@ -23,7 +23,7 @@ from spdx_tools.spdx.model import ExternalPackageRefCategory
 from ics_sbom_libs.cve_match.package_matching.versionfactory import VersionFactory
 from ics_sbom_libs.cve_match.cpe_match_results import CpeMatchResult
 
-from ics_sbom_libs.common.vulnerability import vulnerability_styles, vulnerability_severity_indicators
+from ics_sbom_libs.common.vulnerability import vulnerability_styles
 from ics_sbom_libs.cve_fetch.vulnerabilitydatabase import VulnerabilityDatabase
 
 
@@ -54,27 +54,25 @@ class CveMatcher:
                 self.cleanPackages += 1
 
     def create_match_table(self, table_output: MatchTableOutput = MatchTableOutput.All):
-        match_table = table.Table(title="CVE Results", row_styles=["dim", ""])
+        match_table = table.Table(title="CVE Results", row_styles=["dim", ""], expand=True)
         match_table.add_column(header="Package", style="green")
         match_table.add_column(header="Version", style="magenta")
         match_table.add_column(header="CVE Count", style="blue")
-        match_table.add_column(header="None", style=vulnerability_styles["NONE"])
-        match_table.add_column(header="Low", style=vulnerability_styles["LOW"])
-        match_table.add_column(header="Medium", style=vulnerability_styles["MEDIUM"])
-        match_table.add_column(header="High", style=vulnerability_styles["HIGH"])
-        match_table.add_column(header="Critical", style=vulnerability_styles["CRITICAL"])
+        match_table.add_column(header="None", style=vulnerability_styles["NONE"].style)
+        match_table.add_column(header="Low", style=vulnerability_styles["LOW"].style)
+        match_table.add_column(header="Medium", style=vulnerability_styles["MEDIUM"].style)
+        match_table.add_column(header="High", style=vulnerability_styles["HIGH"].style)
+        match_table.add_column(header="Critical", style=vulnerability_styles["CRITICAL"].style)
         match_table.add_column(header="CVEs")
 
         vuln_info_counts = {"Total": 0, "NONE": 0, "LOW": 0, "MEDIUM": 0, "HIGH": 0, "CRITICAL": 0}
         for result in self.resultList:
             vuln_info = result.get_severity_info()
             if result.cve_list and table_output != MatchTableOutput.WithoutCvesOnly:
+                sorted_cves = sorted(result.cve_list)
                 formated_cves = " ".join(
-                    f"{vulnerability_severity_indicators[cve.severity]}"
-                    f"[link=https://nvd.nist.gov/vuln/detail/{cve.cve_number}]"
-                    f"{cve.cve_number}"
-                    f"[/link]"
-                    for cve in result.cve_list
+                    f"{vulnerability_styles[cve.severity].indicator}{cve.generate_cve_link_text()}"
+                    for cve in sorted_cves
                 )
                 match_table.add_row(
                     f"{result.name}",
