@@ -23,7 +23,7 @@ from spdx_tools.spdx.model import ExternalPackageRefCategory
 from ics_sbom_libs.cve_match.package_matching.versionfactory import VersionFactory
 from ics_sbom_libs.cve_match.cpe_match_results import CpeMatchResult
 
-from ics_sbom_libs.common.vulnerability import vulnerability_styles
+from ics_sbom_libs.common.vulnerability import vulnerability_styles, vulnerability_severity_indicators
 from ics_sbom_libs.cve_fetch.vulnerabilitydatabase import VulnerabilityDatabase
 
 
@@ -69,6 +69,13 @@ class CveMatcher:
         for result in self.resultList:
             vuln_info = result.get_severity_info()
             if result.cve_list and table_output != MatchTableOutput.WithoutCvesOnly:
+                formated_cves = " ".join(
+                    f"{vulnerability_severity_indicators[cve.severity]}"
+                    f"[link=https://nvd.nist.gov/vuln/detail/{cve.cve_number}]"
+                    f"{cve.cve_number}"
+                    f"[/link]"
+                    for cve in result.cve_list
+                )
                 match_table.add_row(
                     f"{result.name}",
                     f"{result.version}",
@@ -78,7 +85,7 @@ class CveMatcher:
                     f'{vuln_info["MEDIUM"]}',
                     f'{vuln_info["HIGH"]}',
                     f'{vuln_info["CRITICAL"]}',
-                    f'{" ".join(cve.cve_number for cve in result.cve_list)}',
+                    f"{formated_cves}",
                 )
 
                 vuln_info_counts["Total"] += len(result.cve_list)
