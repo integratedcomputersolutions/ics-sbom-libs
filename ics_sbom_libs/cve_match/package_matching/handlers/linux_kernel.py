@@ -18,6 +18,9 @@ class LinuxKernelVersionHandler(VersionHandler):
         if ver in invalid_version_list:
             return ver
 
+        if " " in ver:
+            ver = ver.strip()
+
         if ver.count("-") == 0:
             pkg_version = self.version_type.coerce(ver)
         else:

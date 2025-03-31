@@ -15,7 +15,7 @@ from .matchresult import MatchResult
 import semantic_version
 import pathlib
 
-from rich import table
+from rich import table, print
 
 from beartype.typing import Optional
 from cpeparser import CpeParser
@@ -336,14 +336,21 @@ def find_cve_with_cpe(cpe: str, db: VulnerabilityDatabase) -> CpeMatchResult:
 
     res = cursor.fetchall()
 
-    if not res:
-        return result
-    for cve in res:
-        include = cve_version_included(db, cve[0], product, version, sql_ex=second_query)
+    try:
+        if not res:
+            return result
+        for cve in res:
+            include = cve_version_included(db, cve[0], product, version, sql_ex=second_query)
 
-        if include:
-            vuln = db.get_cve(cve[0])
-            result.append_cve(vuln)
+            if include:
+                vuln = db.get_cve(cve[0])
+                result.append_cve(vuln)
+
+    except ValueError as vError:
+        print(
+            f"[red][b]ERROR:[/b] While processing {product} by {vendor} with version {version} had error:"
+            f" {vError}[/red]"
+        )
 
     return result
 
