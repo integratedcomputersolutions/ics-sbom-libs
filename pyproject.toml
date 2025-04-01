@@ -56,12 +56,12 @@ pytest-cov = "*"
 pyinstaller = "*"
 
 # Code formatting
-black = "*"
+black = "^25.1.0"
 
 # Python linting tool
-flake8 = "*"
-flake8-bugbear = "*"
-flake8-pyproject = "*"
+flake8 = "^7.1.0"
+flake8-bugbear = "^24.12.12"
+flake8-pyproject = "^1.2.3"
 
 [tool.black]
 line-length = 120
