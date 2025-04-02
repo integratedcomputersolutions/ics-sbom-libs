@@ -441,7 +441,7 @@ class FilteredParser:
 
             pbar.set_postfix_str(pname.name)
             contents = tf.extractfile(file)
-            file_doc = parse_from_json(contents)
+            file_doc = self._parse_file(contents)
             doc.packages += file_doc.packages
             doc.files += file_doc.files
             doc.snippets += file_doc.snippets
