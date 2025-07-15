@@ -1,3 +1,8 @@
+<!--
+   SPDX-FileCopyrightText: 2025 ICS inc.
+   SPDX-License-Identifier: CC-BY-SA-4.0
+-->
+
 # ISCBOM Filter Spec
 
 ## Intro
