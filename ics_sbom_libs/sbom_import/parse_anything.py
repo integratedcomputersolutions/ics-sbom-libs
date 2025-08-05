@@ -244,7 +244,7 @@ class FilteredParser:
             "--regex_pattern",
             type=str,
             help="sets a name pattern to search for in the tar file if a tar file is given "
-            r"as the input file. [\/recipe-\S+$|^recipe-\S+$)]",
+            r"as the input file. [\/recipe-\S+$]",
         )
 
     def process_args(self, args):
