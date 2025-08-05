@@ -93,6 +93,7 @@ class FilterList:
             "-cross-",
             "-source-",
             "-headers",
+            "index.json",
         ]
 
     @property

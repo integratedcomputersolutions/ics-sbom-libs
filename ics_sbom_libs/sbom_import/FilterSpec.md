@@ -356,6 +356,7 @@ Below, is the current filter used as default in the ICS_SBOM_LIBS.
             "-cross-",
             "-source-",
             "-headers",
+            "index.json",
   ],
 }
 ```
