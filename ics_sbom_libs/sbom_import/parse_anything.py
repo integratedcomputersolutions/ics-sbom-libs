@@ -9,7 +9,12 @@ import re
 import json
 
 import pathlib
-import tarfile
+import sys
+
+if sys.version_info >= (3, 14):
+    import tarfile
+else:
+    from backports.zstd import tarfile
 import argparse
 
 from cpeparser import CpeParser

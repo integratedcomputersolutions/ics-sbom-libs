@@ -30,6 +30,7 @@ rich = "*"
 rich-argparse = "*"
 
 lib4sbom = "*"
+backports-zstd = { version = "*", markers = "python_version < '3.14'" }
 
 pyodbc = "*"
 psycopg2-binary = "*"
