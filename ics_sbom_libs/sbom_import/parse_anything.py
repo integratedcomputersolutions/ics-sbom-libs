@@ -254,7 +254,10 @@ class FilteredParser:
             self.filter_list.set_filters_from_file(args.filter_file)
 
         if args.tar_dir_pattern:
-            self._tar_dir_pattern = args.tar_dir_pattern
+            if args.tar_dir_pattern == "recipes" and not args.regex_pattern:
+                args.regex_pattern = r"(\/recipe-\S+$|^recipe-\S+$)"
+            else:
+                self._tar_dir_pattern = args.tar_dir_pattern
 
         if args.regex_pattern:
             self._regex_pattern = args.regex_pattern
