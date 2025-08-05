@@ -153,6 +153,7 @@ class FilteredParser:
         self._filter = FilterList()
         self._encoding = "utf-8"
         self._tar_dir_pattern = ""
+        self._regex_pattern = ""
 
     @property
     def encoding(self):
@@ -193,6 +194,19 @@ class FilteredParser:
 
         self._tar_dir_pattern = new_pattern
 
+    @property
+    def regex_pattern(self):
+        return self._regex_pattern
+
+    @regex_pattern.setter
+    def regex_pattern(self, new_pattern: str):
+        if not new_pattern:
+            return
+        try:
+            self._regex_pattern = re.compile(re.escape(new_pattern))
+        except re.error:
+            logging.warning("Failed to parse regular expression")
+
     @staticmethod
     def setup_args(parser: argparse.ArgumentParser):
         if not parser:
@@ -220,15 +234,30 @@ class FilteredParser:
             'as the input file. ["recipes"|"packages"]',
         )
 
+        parser.add_argument(
+            "-r",
+            "--regex_pattern",
+            type=str,
+            help="sets a name pattern to search for in the tar file if a tar file is given "
+            r"as the input file. [\/recipe-\S+$|^recipe-\S+$)]",
+        )
+
     def process_args(self, args):
         if not args:
             return
+
+        if args.tar_dir_pattern and args.regex_pattern:
+            logging.warning("regex_pattern replaces the tar_dir_pattern argument, tar_dir_pattern will not be used")
+            args.tar_dir_pattern = ""
 
         if args.filter_file.is_file():
             self.filter_list.set_filters_from_file(args.filter_file)
 
         if args.tar_dir_pattern:
             self._tar_dir_pattern = args.tar_dir_pattern
+
+        if args.regex_pattern:
+            self._regex_pattern = args.regex_pattern
 
         if args.write_filters is not None:
             f = open(args.write_filters, "w")
@@ -419,16 +448,21 @@ class FilteredParser:
         doc = SPDXDocument(doc_ci)
         name_filter = self._filter.compile_exclusions()
 
-        pattern_dir = []
-        if self._tar_dir_pattern:
-            pattern_dir = [
+        pattern = []
+
+        if self._regex_pattern:
+            fileList = [member.name for member in tf.getmembers()]
+            files = "\n".join(fileList)
+            pattern = re.findall(self._regex_pattern, files, re.MULTILINE)
+        elif self._tar_dir_pattern:
+            pattern = [
                 member.name for member in tf.getmembers() if member.isdir() and self._tar_dir_pattern in member.name
             ]
 
         files: list
 
-        if pattern_dir:
-            files = [f for p in pattern_dir for f in tf.getmembers() if p in f.name and not f.isdir()]
+        if pattern:
+            files = [f for p in pattern for f in tf.getmembers() if p in f.name and not f.isdir()]
         else:
             files = [f for f in tf.getmembers() if not f.isdir() and ".spdx" in f.name]
 
