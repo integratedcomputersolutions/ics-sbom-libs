@@ -34,7 +34,7 @@ class MatchResult:
         if not self.cve_list:
             line += "!"
         else:
-            line += ": " + " ".join((item.cve_number for item in self.cve_list))
+            line += ": " + " ".join(item.cve_number for item in self.cve_list)
         return line
 
     @property
