@@ -57,7 +57,7 @@ pytest-cov = "*"
 pyinstaller = "*"
 
 # Code formatting
-black = "^25.1.0"
+black = "^26.10.1"
 
 # Python linting tool
 flake8 = "^7.1.0"
