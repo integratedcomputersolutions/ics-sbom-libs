@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: pipx install black flake8
       - name: Check Code Formating
-        run: black -l 120 -t py37 -t py38 -t py39 -t py310 -t py311 --preview --check ics_sbom_libs/
+        run: black -l 120 -t py310 -t py311 -t py312 -t py313 --preview --check ics_sbom_libs/
       - name: Check Code Quality
         run: flake8 --max-line-length 120 ics_sbom_libs/
       - name: Check Reuse Compliance
@@ -48,7 +48,7 @@ jobs:
     - run: git fetch --tags --force
     - uses: actions/setup-python@v5
       with:
-        python-version: '3.9'
+        python-version: '3.10'
     - name: Install dependencies
       run: |
         sudo apt-get update -y > /dev/null
